@@ -1,0 +1,4 @@
+CJUCatch is a private friends-only prototype.
+
+This build is not intended for public distribution.
+This app is an original implementation and must not include copied code or artwork from the reference project.

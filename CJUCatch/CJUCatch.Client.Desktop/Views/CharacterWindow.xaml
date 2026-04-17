@@ -1,0 +1,156 @@
+<Window x:Class="CJUCatch.Client.Desktop.Views.CharacterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="True"
+        ShowInTaskbar="False"
+        Width="156"
+        Height="212">
+    <Border Background="#00000000"
+            MouseLeftButtonDown="OnMouseLeftButtonDown">
+        <Border.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="패널 열기" Click="OpenControlPanel_Click" />
+                <MenuItem Header="패널 숨기기" Click="HideControlPanel_Click" />
+                <Separator />
+                <MenuItem Header="앱 종료" Click="ExitApplication_Click" />
+            </ContextMenu>
+        </Border.ContextMenu>
+
+        <Grid>
+            <Border x:Name="SpeechBubbleBorder"
+                    Width="138"
+                    MinHeight="38"
+                    Margin="0,4,0,0"
+                    VerticalAlignment="Top"
+                    Panel.ZIndex="8"
+                    Padding="12,8"
+                    Background="#F7FFFDF8"
+                    BorderBrush="#FFE3E8DE"
+                    BorderThickness="1"
+                    CornerRadius="18"
+                    Visibility="Collapsed">
+                <TextBlock x:Name="SpeechBubbleTextBlock"
+                           TextWrapping="Wrap"
+                           TextAlignment="Center"
+                           FontSize="12"
+                           Foreground="#FF1E2A25"
+                           Text="..." />
+            </Border>
+
+            <Image x:Name="CharacterImage"
+                   Width="130"
+                   Height="130"
+                   Margin="13,30,13,0"
+                   VerticalAlignment="Top"
+                   Panel.ZIndex="1"
+                   RenderOptions.BitmapScalingMode="HighQuality">
+                <Image.RenderTransform>
+                    <TranslateTransform x:Name="CharacterShakeTransform" />
+                </Image.RenderTransform>
+            </Image>
+
+            <Canvas x:Name="ParticleCanvas"
+                    Panel.ZIndex="5"
+                    IsHitTestVisible="False" />
+
+            <Border Width="138"
+                    Height="36"
+                    VerticalAlignment="Bottom"
+                    Panel.ZIndex="6"
+                    CornerRadius="18"
+                    Background="#F2FFFCF5">
+                <TextBlock x:Name="NameTextBlock"
+                           Margin="12,0"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="12"
+                           FontWeight="SemiBold"
+                           Foreground="#FF1E2A25"
+                           Text="게스트"
+                           TextAlignment="Center"
+                           TextTrimming="CharacterEllipsis" />
+            </Border>
+
+            <Border x:Name="ComboBadge"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Panel.ZIndex="7"
+                    Margin="0,2,0,0"
+                    Padding="8,4"
+                    Background="#FFF4E18A"
+                    CornerRadius="12"
+                    Visibility="Collapsed">
+                <TextBlock x:Name="ComboTextBlock"
+                           FontSize="12"
+                           FontWeight="Bold"
+                           Foreground="#FF7A4D00"
+                           Text="x1" />
+            </Border>
+
+            <Border x:Name="ChatInputContainer"
+                    Width="146"
+                    Height="40"
+                    Margin="0,0,0,-4"
+                    VerticalAlignment="Bottom"
+                    Panel.ZIndex="10"
+                    CornerRadius="20"
+                    Background="#FFFFFF"
+                    BorderBrush="#FFE3E8DE"
+                    BorderThickness="1"
+                    Visibility="Collapsed">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox x:Name="ChatInputTextBox"
+                             Grid.Column="0"
+                             Margin="12,0,4,0"
+                             Background="Transparent"
+                             BorderThickness="0"
+                             FontSize="12"
+                             MaxLength="100"
+                             Foreground="#FF1E2A25"
+                             VerticalAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             KeyDown="ChatInputTextBox_KeyDown" />
+
+                    <Border Grid.Column="1"
+                            Width="26" Height="26"
+                            Margin="0,0,4,0"
+                            Background="#FF1E6B52"
+                            CornerRadius="13"
+                            Cursor="Hand"
+                            MouseLeftButtonDown="SendChatButton_Click">
+                        <TextBlock Text="➤"
+                                   Foreground="#FFFFFF"
+                                   FontSize="10"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Margin="1,0,0,0" />
+                    </Border>
+
+                    <Border Grid.Column="2"
+                            Width="26" Height="26"
+                            Margin="0,0,6,0"
+                            Background="#FFE3E8DE"
+                            CornerRadius="13"
+                            Cursor="Hand"
+                            MouseLeftButtonDown="CancelChatButton_Click">
+                        <TextBlock Text="✕"
+                                   Foreground="#FF1E2A25"
+                                   FontSize="10"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

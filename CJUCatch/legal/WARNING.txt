@@ -1,0 +1,5 @@
+Security notice
+
+- Do not enter secrets, personal identifiers, or sensitive chat content.
+- Use only trusted self-hosted or personally controlled servers.
+- Keep this app limited to known friends until the security review checklist is complete.

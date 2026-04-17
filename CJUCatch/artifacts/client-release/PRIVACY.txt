@@ -1,0 +1,6 @@
+CJUCatch privacy summary
+
+- The app should only send the minimum data needed for shared presence.
+- The app must not send raw key contents, window titles, screenshots, clipboard data, or process lists.
+- Display name, instance membership, simple activity state, and avatar position may be shared with users in the same instance.
+- Private instances require a password. Passwords must be stored as hashes on the server, never in plaintext.

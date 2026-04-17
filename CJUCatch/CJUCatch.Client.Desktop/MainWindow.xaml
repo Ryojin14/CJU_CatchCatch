@@ -1,0 +1,142 @@
+<Window x:Class="CJUCatch.Client.Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="CJUCatch"
+        Width="560"
+        MinWidth="560"
+        MinHeight="470"
+        SizeToContent="Height"
+        ResizeMode="NoResize"
+        Background="{StaticResource PageBackgroundBrush}">
+    <Grid Margin="22">
+        <Border Padding="22"
+                Background="{StaticResource PanelBrush}"
+                CornerRadius="22">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock FontSize="28"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource TextBrush}"
+                                   Text="CJUCatch" />
+                        <TextBlock Margin="0,8,0,0"
+                                   FontSize="13"
+                                   Foreground="{StaticResource MutedBrush}"
+                                   Text="닉네임을 정하고 인스턴스를 생성하거나 코드로 입장하세요." />
+                    </StackPanel>
+
+                    <Button x:Name="HelpButton"
+                            Grid.Column="1"
+                            Width="84"
+                            Height="34"
+                            Margin="12,4,0,0"
+                            Background="#FFE8DED3"
+                            Foreground="{StaticResource TextBrush}"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            VerticalAlignment="Top"
+                            Click="HelpButton_Click"
+                            Content="도움말" />
+                </Grid>
+
+                <StackPanel Grid.Row="1"
+                            Margin="0,22,0,0">
+                    <TextBlock FontSize="13"
+                               Foreground="{StaticResource MutedBrush}"
+                               Text="닉네임 설정" />
+                    <TextBox x:Name="DisplayNameTextBox"
+                             Margin="0,8,0,0"
+                             Padding="12"
+                             FontSize="15"
+                             MaxLength="12"
+                             Text="게스트" />
+                    <TextBlock Margin="0,6,0,0"
+                               FontSize="11"
+                               Foreground="{StaticResource MutedBrush}"
+                               Text="한글 6자 / 영문 12자 이내" />
+                </StackPanel>
+
+                <Grid Grid.Row="2"
+                      Margin="0,22,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="12" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="CreateInstanceButton"
+                            Grid.Column="0"
+                            Height="44"
+                            Background="{StaticResource AccentBrush}"
+                            Foreground="White"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Click="CreateInstanceButton_Click"
+                            Content="인스턴스 생성" />
+                    <Button x:Name="JoinInstanceButton"
+                            Grid.Column="2"
+                            Height="44"
+                            Background="#FFE8DED3"
+                            Foreground="{StaticResource TextBrush}"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Click="JoinInstanceButton_Click"
+                            Content="인스턴스 입장" />
+                </Grid>
+
+                <Border Grid.Row="3"
+                        Margin="0,18,0,0"
+                        Padding="14"
+                        Background="#FFF3EEE4"
+                        CornerRadius="16">
+                    <StackPanel>
+                        <TextBlock FontSize="12"
+                                   Foreground="{StaticResource MutedBrush}"
+                                   Text="현재 인스턴스 코드" />
+                        <TextBlock x:Name="CurrentInstanceCodeTextBlock"
+                                   Margin="0,6,0,0"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextBrush}"
+                                   Text="없음" />
+                                   
+                        <CheckBox x:Name="ComboShakeCheckBox"
+                                  Margin="0,16,0,0"
+                                  Content="흔들림 효과 OFF"
+                                  Foreground="{StaticResource TextBrush}"
+                                  FontSize="13"
+                                  Click="ComboShakeCheckBox_Click" />
+                    </StackPanel>
+                </Border>
+
+                <TextBlock x:Name="StatusTextBlock"
+                           Grid.Row="4"
+                           Margin="0,18,0,0"
+                           FontSize="13"
+                           Foreground="{StaticResource MutedBrush}"
+                           TextWrapping="Wrap"
+                           Text="준비 완료" />
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
