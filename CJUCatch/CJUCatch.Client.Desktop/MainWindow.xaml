@@ -46,7 +46,7 @@
                             Width="84"
                             Height="34"
                             Margin="12,4,0,0"
-                            Background="#FFE8DED3"
+                            Background="{StaticResource AccentSoftBrush}"
                             Foreground="{StaticResource TextBrush}"
                             BorderThickness="0"
                             Cursor="Hand"
@@ -94,7 +94,7 @@
                     <Button x:Name="JoinInstanceButton"
                             Grid.Column="2"
                             Height="44"
-                            Background="#FFE8DED3"
+                            Background="{StaticResource AccentSoftBrush}"
                             Foreground="{StaticResource TextBrush}"
                             BorderThickness="0"
                             Cursor="Hand"
@@ -107,18 +107,39 @@
                 <Border Grid.Row="3"
                         Margin="0,18,0,0"
                         Padding="14"
-                        Background="#FFF3EEE4"
+                            Background="{StaticResource AccentSoftBrush}"
                         CornerRadius="16">
                     <StackPanel>
                         <TextBlock FontSize="12"
                                    Foreground="{StaticResource MutedBrush}"
                                    Text="현재 인스턴스 코드" />
-                        <TextBlock x:Name="CurrentInstanceCodeTextBlock"
-                                   Margin="0,6,0,0"
-                                   FontSize="18"
-                                   FontWeight="SemiBold"
-                                   Foreground="{StaticResource TextBrush}"
-                                   Text="없음" />
+                        <Grid Margin="0,6,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <TextBox x:Name="CurrentInstanceCodeTextBox"
+                                     Grid.Column="0"
+                                     FontSize="20"
+                                     FontWeight="Bold"
+                                     Foreground="{StaticResource TextBrush}"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     IsReadOnly="True"
+                                     Text="없음" />
+                                     
+                            <Button x:Name="CopyCodeButton"
+                                    Grid.Column="1"
+                                    Padding="14,6"
+                                    Background="{StaticResource AccentSoftBrush}"
+                                    Foreground="{StaticResource AccentBrush}"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    FontWeight="SemiBold"
+                                    Click="CopyCodeButton_Click"
+                                    Content="코드 복사" />
+                        </Grid>
                                    
                         <CheckBox x:Name="ComboShakeCheckBox"
                                   Margin="0,16,0,0"

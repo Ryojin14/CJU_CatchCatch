@@ -3,10 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="도움말"
         Width="420"
-        Height="290"
+        SizeToContent="Height"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
-        Background="#FFF7F3EA">
+        Background="{StaticResource PageBackgroundBrush}">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -16,34 +16,47 @@
 
         <TextBlock FontSize="22"
                    FontWeight="SemiBold"
-                   Foreground="#FF1E2A25"
+                   Foreground="{StaticResource TextBrush}"
                    Text="조작 방법" />
 
         <Border Grid.Row="1"
                 Margin="0,16,0,0"
                 Padding="16"
-                Background="#FFFFFCF5"
+                Background="{StaticResource PanelBrush}"
                 CornerRadius="18">
-            <TextBlock FontSize="14"
-                       Foreground="#FF1E2A25"
-                       TextWrapping="Wrap">
-캐릭터를 클릭 후 드래그하면 위치가 이동합니다.
-
-캐릭터를 우클릭하면 설정 메뉴가 열립니다.
-
-캐릭터를 더블클릭하면 말풍선 입력창이 열립니다.
-            </TextBlock>
+            <StackPanel Margin="0,4,0,0">
+                <TextBlock FontSize="14" Foreground="{StaticResource TextBrush}" TextWrapping="Wrap" Margin="0,0,0,12">
+                    <Run FontWeight="SemiBold">• 위치 이동 :</Run>
+                    <Run>캐릭터를 마우스로 클릭 후 드래그하면 화면 어디로든 이동합니다.</Run>
+                </TextBlock>
+                <TextBlock FontSize="14" Foreground="{StaticResource TextBrush}" TextWrapping="Wrap" Margin="0,0,0,12">
+                    <Run FontWeight="SemiBold">• 설정 메뉴 :</Run>
+                    <Run>캐릭터를 우클릭하면 프로그램 설정 메뉴가 열립니다.</Run>
+                </TextBlock>
+                <TextBlock FontSize="14" Foreground="{StaticResource TextBrush}" TextWrapping="Wrap">
+                    <Run FontWeight="SemiBold">• 말풍선 채팅 :</Run>
+                    <Run>캐릭터를 더블클릭하면 메세지를 입력할 수 있는 채팅창이 나타납니다.</Run>
+                </TextBlock>
+            </StackPanel>
         </Border>
 
-        <Button Grid.Row="2"
-                Width="88"
-                Height="38"
-                Margin="0,18,0,0"
-                HorizontalAlignment="Right"
-                Background="#FF1E6B52"
-                Foreground="White"
-                BorderThickness="0"
-                Click="CloseButton_Click"
-                Content="닫기" />
+        <Grid Grid.Row="2" Margin="0,18,0,20">
+            <TextBlock FontSize="12" Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center" TextWrapping="Wrap" Margin="0,0,100,0">
+                <Run>앱 오류 발생 시, 설치 폴더에 있는 </Run>
+                <Run FontWeight="SemiBold">Logs</Run>
+                <Run> 폴더를 아래 이메일로 보내주세요!</Run>
+                <LineBreak />
+                <Run FontWeight="SemiBold" Foreground="{StaticResource AccentBrush}">ryojinoh@gmail.com</Run>
+            </TextBlock>
+            <Button Width="88"
+                    Height="38"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Background="{StaticResource AccentBrush}"
+                    Foreground="White"
+                    BorderThickness="0"
+                    Click="CloseButton_Click"
+                    Content="닫기" />
+        </Grid>
     </Grid>
 </Window>

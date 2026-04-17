@@ -18,6 +18,9 @@
     <None Include="..\legal\WARNING.txt" Link="WARNING.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="..\RELEASE_NOTES.txt" Link="RELEASE_NOTES.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="Assets\**\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

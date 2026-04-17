@@ -116,7 +116,7 @@
                              BorderThickness="0"
                              FontSize="12"
                              MaxLength="100"
-                             Foreground="#FF1E2A25"
+                             Foreground="{StaticResource TextBrush}"
                              VerticalAlignment="Center"
                              VerticalContentAlignment="Center"
                              KeyDown="ChatInputTextBox_KeyDown" />
@@ -124,7 +124,7 @@
                     <Border Grid.Column="1"
                             Width="26" Height="26"
                             Margin="0,0,4,0"
-                            Background="#FF1E6B52"
+                            Background="{StaticResource AccentBrush}"
                             CornerRadius="13"
                             Cursor="Hand"
                             MouseLeftButtonDown="SendChatButton_Click">
@@ -139,12 +139,12 @@
                     <Border Grid.Column="2"
                             Width="26" Height="26"
                             Margin="0,0,6,0"
-                            Background="#FFE3E8DE"
+                            Background="{StaticResource AccentSoftBrush}"
                             CornerRadius="13"
                             Cursor="Hand"
                             MouseLeftButtonDown="CancelChatButton_Click">
                         <TextBlock Text="✕"
-                                   Foreground="#FF1E2A25"
+                                   Foreground="{StaticResource TextBrush}"
                                    FontSize="10"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center" />

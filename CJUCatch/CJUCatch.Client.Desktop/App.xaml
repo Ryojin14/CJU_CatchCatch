@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
-        <SolidColorBrush x:Key="PageBackgroundBrush" Color="#FFF7F3EA" />
-        <SolidColorBrush x:Key="PanelBrush" Color="#FFFFFCF5" />
-        <SolidColorBrush x:Key="AccentBrush" Color="#FF1E6B52" />
-        <SolidColorBrush x:Key="AccentSoftBrush" Color="#FFDDEEE7" />
-        <SolidColorBrush x:Key="TextBrush" Color="#FF1E2A25" />
-        <SolidColorBrush x:Key="MutedBrush" Color="#FF5F6B66" />
+        <SolidColorBrush x:Key="PageBackgroundBrush" Color="#FFF3F5F9" />
+        <SolidColorBrush x:Key="PanelBrush" Color="#FFFFFFFF" />
+        <SolidColorBrush x:Key="AccentBrush" Color="#FF0033A0" />
+        <SolidColorBrush x:Key="AccentSoftBrush" Color="#FFE5EBF5" />
+        <SolidColorBrush x:Key="TextBrush" Color="#FF001E62" />
+        <SolidColorBrush x:Key="MutedBrush" Color="#FF64758B" />
     </Application.Resources>
 </Application>

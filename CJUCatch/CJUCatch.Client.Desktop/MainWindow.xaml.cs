@@ -10,7 +10,7 @@ namespace CJUCatch.Client.Desktop;
 
 public partial class MainWindow : Window
 {
-    private const string LocalServerUrl = "https://localhost:7275";
+    private const string ServerUrl = "https://cju-catchcatch.onrender.com";
     private const int ComboDisplayMaxThreshold = 2_147_483_646;
 
     private readonly GlobalInputActivityMonitor _inputActivityMonitor = new();
@@ -173,7 +173,7 @@ public partial class MainWindow : Window
             SetBusy(true);
 
             var request = new CreateInstanceRequest(ReadDisplayName());
-            var code = await _presenceClient.CreateInstanceAsync(LocalServerUrl, request);
+            var code = await _presenceClient.CreateInstanceAsync(ServerUrl, request);
 
             await JoinInstanceInternalAsync(code);
             MessageBox.Show(
@@ -244,7 +244,7 @@ public partial class MainWindow : Window
         }
 
         var snapshots = await _presenceClient.JoinInstanceAsync(
-            LocalServerUrl,
+            ServerUrl,
             new JoinInstanceRequest(normalizedCode, ReadDisplayName(), _sessionId));
 
         _joinedInstanceCode = normalizedCode;
@@ -306,12 +306,12 @@ public partial class MainWindow : Window
     {
         if (string.IsNullOrWhiteSpace(_joinedInstanceCode))
         {
-            CurrentInstanceCodeTextBlock.Text = "없음";
+            CurrentInstanceCodeTextBox.Text = "없음";
             UpdateActionButtons();
             return;
         }
 
-        CurrentInstanceCodeTextBlock.Text = _joinedInstanceCode;
+        CurrentInstanceCodeTextBox.Text = _joinedInstanceCode;
         UpdateActionButtons();
     }
 
@@ -492,6 +492,16 @@ public partial class MainWindow : Window
         if (_characterWindow != null)
         {
             _characterWindow.EnableComboShake = !(ComboShakeCheckBox.IsChecked ?? false);
+        }
+    }
+
+    private void CopyCodeButton_Click(object sender, RoutedEventArgs e)
+    {
+        var text = CurrentInstanceCodeTextBox.Text;
+        if (!string.IsNullOrWhiteSpace(text) && text != "없음")
+        {
+            Clipboard.SetText(text);
+            MessageBox.Show(this, "인스턴스 코드가 클립보드에 복사되었습니다!", "복사 완료", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

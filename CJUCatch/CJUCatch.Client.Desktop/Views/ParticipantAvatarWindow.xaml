@@ -8,15 +8,16 @@
         Topmost="True"
         ShowInTaskbar="False"
         ShowActivated="False"
-        Width="148"
-        Height="198">
-    <Grid IsHitTestVisible="False">
+        IsHitTestVisible="False"
+        Width="156"
+        Height="212">
+    <Grid>
         <Border x:Name="SpeechBubbleBorder"
-                Width="132"
-                MinHeight="36"
+                Width="138"
+                MinHeight="38"
                 Margin="0,4,0,0"
                 VerticalAlignment="Top"
-                Padding="10,8"
+                Padding="12,8"
                 Background="#F7FFFDF8"
                 BorderBrush="#FFE3E8DE"
                 BorderThickness="1"
@@ -30,34 +31,12 @@
                        Text="..." />
         </Border>
 
-        <Ellipse Width="92"
-                 Height="92"
-                 Margin="0,42,0,0"
-                 VerticalAlignment="Top"
-                 Fill="#FF7BAF9B" />
-        <Ellipse Width="68"
-                 Height="46"
-                 Margin="0,60,0,0"
-                 VerticalAlignment="Top"
-                 Fill="#FFF5FAF8" />
-        <Ellipse Width="7"
-                 Height="7"
-                 Margin="0,80,18,0"
-                 HorizontalAlignment="Center"
-                 VerticalAlignment="Top"
-                 Fill="#FF1E2A25" />
-        <Ellipse Width="7"
-                 Height="7"
-                 Margin="18,80,0,0"
-                 HorizontalAlignment="Center"
-                 VerticalAlignment="Top"
-                 Fill="#FF1E2A25" />
-        <Ellipse Width="12"
-                 Height="7"
-                 Margin="0,94,0,0"
-                 HorizontalAlignment="Center"
-                 VerticalAlignment="Top"
-                 Fill="#FFD96557" />
+        <Image x:Name="CharacterImage"
+               Width="130"
+               Height="130"
+               Margin="13,30,13,0"
+               VerticalAlignment="Top"
+               RenderOptions.BitmapScalingMode="HighQuality" />
 
         <Border VerticalAlignment="Bottom"
                 Width="138"

@@ -1,4 +1,6 @@
 using System.Windows;
+using System.Windows.Media.Imaging;
+using System.IO;
 using CJUCatch.Shared;
 
 namespace CJUCatch.Client.Desktop.Views;
@@ -8,6 +10,24 @@ public partial class ParticipantAvatarWindow : Window
     public ParticipantAvatarWindow()
     {
         InitializeComponent();
+        LoadCharacterImage();
+    }
+
+    private void LoadCharacterImage()
+    {
+        try
+        {
+            var basePath = AppContext.BaseDirectory;
+            var path = Path.Combine(basePath, "Assets", "Characters", "sp1.png");
+            if (File.Exists(path))
+            {
+                CharacterImage.Source = new BitmapImage(new Uri(path, UriKind.Absolute));
+            }
+        }
+        catch
+        {
+            // Ignore
+        }
     }
 
     public void ApplySnapshot(ParticipantSnapshot snapshot)
