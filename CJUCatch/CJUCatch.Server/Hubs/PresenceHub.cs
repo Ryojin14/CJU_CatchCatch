@@ -46,6 +46,10 @@ public sealed class PresenceHub(
 
         lock (instance)
         {
+            if (instance.Participants.Count >= 10)
+            {
+                throw new HubException("인스턴스 정원(10명)이 가득 찼습니다.");
+            }
             instance.Participants[participant.SessionId] = participant;
         }
 

@@ -1,5 +1,6 @@
 using CJUCatch.Client.Desktop.Views;
 using CJUCatch.Shared;
+using System.Windows;
 
 namespace CJUCatch.Client.Desktop.Services;
 
@@ -7,6 +8,7 @@ internal sealed class ParticipantOverlayManager : IDisposable
 {
     private readonly string _localSessionId;
     private readonly Dictionary<string, ParticipantAvatarWindow> _windows = new(StringComparer.Ordinal);
+    private bool _othersVisible = true;
 
     public ParticipantOverlayManager(string localSessionId)
     {
@@ -24,6 +26,7 @@ internal sealed class ParticipantOverlayManager : IDisposable
         {
             window = new ParticipantAvatarWindow();
             _windows[snapshot.SessionId] = window;
+            window.Visibility = _othersVisible ? Visibility.Visible : Visibility.Hidden;
             window.Show();
         }
 
@@ -45,6 +48,15 @@ internal sealed class ParticipantOverlayManager : IDisposable
         if (_windows.TryGetValue(sessionId, out var window))
         {
             window.UpdateSpeechBubble(text);
+        }
+    }
+
+    public void SetOthersVisible(bool visible)
+    {
+        _othersVisible = visible;
+        foreach (var (_, window) in _windows)
+        {
+            window.Visibility = visible ? Visibility.Visible : Visibility.Hidden;
         }
     }
 

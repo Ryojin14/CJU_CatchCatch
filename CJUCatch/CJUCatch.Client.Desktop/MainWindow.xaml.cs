@@ -31,12 +31,15 @@ public partial class MainWindow : Window
     private double _pendingPositionY = 0.5;
     private PresenceState _pendingState = PresenceState.Idle;
     private int _comboCount;
+    private bool _othersHidden = false;
+    private readonly System.Collections.ObjectModel.ObservableCollection<string> _chatLog = new();
 
     public MainWindow()
     {
         InitializeComponent();
         _participantOverlayManager = new ParticipantOverlayManager(_sessionId);
         DisplayNameTextBox.TextChanged += DisplayNameTextBox_TextChanged;
+        ChatLogItemsControl.ItemsSource = _chatLog;
 
         _presenceClient.ParticipantJoined += snapshot => Dispatcher.Invoke(() =>
         {
@@ -64,6 +67,14 @@ public partial class MainWindow : Window
         _presenceClient.SpeechBubbleUpdated += update => Dispatcher.Invoke(() =>
         {
             _participantOverlayManager.UpdateSpeechBubble(update.SessionId, update.Text);
+            // 채팅 로그에 추가 (다른 사람 메시지)
+            if (!string.IsNullOrWhiteSpace(update.Text))
+            {
+                var sender = _participants.TryGetValue(update.SessionId, out var p) ? p.DisplayName : update.SessionId[..6];
+                AddChatLog($"[{sender}] {update.Text}");
+                // 내 캐릭터 왼쪽 위에 💬 알림 뱃지 표시
+                _characterWindow?.ShowChatNotification(sender);
+            }
         });
 
         _presenceTimer.Tick += async (_, _) =>
@@ -100,6 +111,17 @@ public partial class MainWindow : Window
             UpdateCurrentInstanceText();
             ApplyLocalActivityVisuals();
             RefreshLocalIdentity();
+
+            // 아이콘 파일 시스템에서 로드 (PublishSingleFile 호환)
+            try
+            {
+                var iconPath = System.IO.Path.Combine(AppContext.BaseDirectory, "Assets", "icon.png");
+                if (System.IO.File.Exists(iconPath))
+                {
+                    Icon = new System.Windows.Media.Imaging.BitmapImage(new Uri(iconPath));
+                }
+            }
+            catch { }
         };
 
         Closing += OnClosing;
@@ -279,6 +301,7 @@ public partial class MainWindow : Window
         _currentSpeechBubbleText = null;
         _speechBubbleResetTimer.Stop();
         _characterWindow?.UpdateSpeechBubble(null);
+        _chatLog.Clear();  // 인스턴스 나갈 때 채팅로그 초기화
         UpdateCurrentInstanceText();
         UpdateActionButtons();
         ApplyLocalActivityVisuals();
@@ -307,11 +330,13 @@ public partial class MainWindow : Window
         if (string.IsNullOrWhiteSpace(_joinedInstanceCode))
         {
             CurrentInstanceCodeTextBox.Text = "없음";
+            ParticipantCountTextBlock.Text = "";
             UpdateActionButtons();
             return;
         }
 
         CurrentInstanceCodeTextBox.Text = _joinedInstanceCode;
+        ParticipantCountTextBlock.Text = $"{_participants.Count}/10명";
         UpdateActionButtons();
     }
 
@@ -468,6 +493,13 @@ public partial class MainWindow : Window
         _currentSpeechBubbleText = normalized;
         _characterWindow?.UpdateSpeechBubble(normalized);
 
+        // 내 채팅도 로그에 추가
+        if (!string.IsNullOrWhiteSpace(normalized))
+        {
+            var myName = GetCurrentDisplayNameOrFallback();
+            AddChatLog($"[{myName}] {normalized}");
+        }
+
         _speechBubbleResetTimer.Stop();
         if (!string.IsNullOrWhiteSpace(normalized))
         {
@@ -493,6 +525,50 @@ public partial class MainWindow : Window
         {
             _characterWindow.EnableComboShake = !(ComboShakeCheckBox.IsChecked ?? false);
         }
+    }
+
+    private void HideOthersButton_Click(object sender, RoutedEventArgs e)
+    {
+        _othersHidden = !_othersHidden;
+        _participantOverlayManager.SetOthersVisible(!_othersHidden);
+        HideOthersButton.Content = _othersHidden ? "다른 사람 보이기" : "다른 사람 숨기기";
+        HideOthersButton.Background = _othersHidden
+            ? (System.Windows.Media.Brush)FindResource("AccentBrush")
+            : System.Windows.Media.Brushes.White;
+        HideOthersButton.Foreground = _othersHidden
+            ? System.Windows.Media.Brushes.White
+            : (System.Windows.Media.Brush)FindResource("TextBrush");
+    }
+
+    private void ClearChatLogButton_Click(object sender, RoutedEventArgs e)
+    {
+        _chatLog.Clear();
+    }
+
+    private void AddChatLog(string message)
+    {
+        var time = DateTime.Now.ToString("HH:mm:ss");
+        _chatLog.Add($"{time}  {message}");
+        // 자동 스크롤 to bottom
+        ChatLogScrollViewer.ScrollToBottom();
+    }
+
+    private void Skin1Button_Click(object sender, RoutedEventArgs e)
+    {
+        _characterWindow?.ChangeSkin(1);
+        Skin1Button.Background = (System.Windows.Media.Brush)FindResource("AccentBrush");
+        Skin1Button.Foreground = System.Windows.Media.Brushes.White;
+        Skin2Button.Background = (System.Windows.Media.Brush)FindResource("AccentSoftBrush");
+        Skin2Button.Foreground = (System.Windows.Media.Brush)FindResource("TextBrush");
+    }
+
+    private void Skin2Button_Click(object sender, RoutedEventArgs e)
+    {
+        _characterWindow?.ChangeSkin(2);
+        Skin2Button.Background = (System.Windows.Media.Brush)FindResource("AccentBrush");
+        Skin2Button.Foreground = System.Windows.Media.Brushes.White;
+        Skin1Button.Background = (System.Windows.Media.Brush)FindResource("AccentSoftBrush");
+        Skin1Button.Foreground = (System.Windows.Media.Brush)FindResource("TextBrush");
     }
 
     private void CopyCodeButton_Click(object sender, RoutedEventArgs e)

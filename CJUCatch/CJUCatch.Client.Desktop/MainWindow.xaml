@@ -11,6 +11,44 @@
         SizeToContent="Height"
         ResizeMode="NoResize"
         Background="{StaticResource PageBackgroundBrush}">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="12"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Margin="{TemplateBinding Padding}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="12">
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                          Margin="{TemplateBinding Padding}"
+                                          VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="#FFD1D9E6" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        </Style>
+    </Window.Resources>
     <Grid Margin="22">
         <Border Padding="22"
                 Background="{StaticResource PanelBrush}"
@@ -21,15 +59,16 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
+                <!-- 헤더 -->
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-
                     <StackPanel Grid.Column="0">
                         <TextBlock FontSize="28"
                                    FontWeight="Bold"
@@ -40,12 +79,12 @@
                                    Foreground="{StaticResource MutedBrush}"
                                    Text="닉네임을 정하고 인스턴스를 생성하거나 코드로 입장하세요." />
                     </StackPanel>
-
                     <Button x:Name="HelpButton"
                             Grid.Column="1"
                             Width="84"
                             Height="34"
                             Margin="12,4,0,0"
+                            Padding="0"
                             Background="{StaticResource AccentSoftBrush}"
                             Foreground="{StaticResource TextBrush}"
                             BorderThickness="0"
@@ -55,14 +94,14 @@
                             Content="도움말" />
                 </Grid>
 
-                <StackPanel Grid.Row="1"
-                            Margin="0,22,0,0">
+                <!-- 닉네임 설정 -->
+                <StackPanel Grid.Row="1" Margin="0,22,0,0">
                     <TextBlock FontSize="13"
                                Foreground="{StaticResource MutedBrush}"
                                Text="닉네임 설정" />
                     <TextBox x:Name="DisplayNameTextBox"
                              Margin="0,8,0,0"
-                             Padding="12"
+                             Padding="12,10"
                              FontSize="15"
                              MaxLength="12"
                              Text="게스트" />
@@ -72,53 +111,67 @@
                                Text="한글 6자 / 영문 12자 이내" />
                 </StackPanel>
 
-                <Grid Grid.Row="2"
-                      Margin="0,22,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="12" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <Button x:Name="CreateInstanceButton"
-                            Grid.Column="0"
-                            Height="44"
-                            Background="{StaticResource AccentBrush}"
-                            Foreground="White"
-                            BorderThickness="0"
-                            Cursor="Hand"
-                            HorizontalContentAlignment="Center"
-                            VerticalContentAlignment="Center"
-                            Click="CreateInstanceButton_Click"
-                            Content="인스턴스 생성" />
-                    <Button x:Name="JoinInstanceButton"
-                            Grid.Column="2"
-                            Height="44"
-                            Background="{StaticResource AccentSoftBrush}"
-                            Foreground="{StaticResource TextBrush}"
-                            BorderThickness="0"
-                            Cursor="Hand"
-                            HorizontalContentAlignment="Center"
-                            VerticalContentAlignment="Center"
-                            Click="JoinInstanceButton_Click"
-                            Content="인스턴스 입장" />
-                </Grid>
-
-                <Border Grid.Row="3"
-                        Margin="0,18,0,0"
+                <!-- 인스턴스 패널 (생성/입장 + 코드 + 흔들림) -->
+                <Border Grid.Row="2"
+                        Margin="0,22,0,0"
                         Padding="14"
-                            Background="{StaticResource AccentSoftBrush}"
+                        Background="{StaticResource AccentSoftBrush}"
                         CornerRadius="16">
                     <StackPanel>
-                        <TextBlock FontSize="12"
-                                   Foreground="{StaticResource MutedBrush}"
-                                   Text="현재 인스턴스 코드" />
+                        <!-- 인스턴스 생성 / 입장 버튼 -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="CreateInstanceButton"
+                                    Grid.Column="0"
+                                    Height="44"
+                                    Padding="0"
+                                    Background="{StaticResource AccentBrush}"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Click="CreateInstanceButton_Click"
+                                    Content="인스턴스 생성" />
+                            <Button x:Name="JoinInstanceButton"
+                                    Grid.Column="2"
+                                    Height="44"
+                                    Padding="0"
+                                    Background="White"
+                                    Foreground="{StaticResource TextBrush}"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Click="JoinInstanceButton_Click"
+                                    Content="인스턴스 입장" />
+                        </Grid>
+
+                        <!-- 인스턴스 코드 + 인원수 -->
+                        <Grid Margin="0,14,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock FontSize="12"
+                                       Foreground="{StaticResource MutedBrush}"
+                                       Text="현재 인스턴스 코드" />
+                            <TextBlock x:Name="ParticipantCountTextBlock"
+                                       Grid.Column="1"
+                                       FontSize="12"
+                                       FontWeight="Bold"
+                                       Foreground="{StaticResource AccentBrush}"
+                                       Text="" />
+                        </Grid>
                         <Grid Margin="0,6,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            
                             <TextBox x:Name="CurrentInstanceCodeTextBox"
                                      Grid.Column="0"
                                      FontSize="20"
@@ -128,11 +181,10 @@
                                      BorderThickness="0"
                                      IsReadOnly="True"
                                      Text="없음" />
-                                     
                             <Button x:Name="CopyCodeButton"
                                     Grid.Column="1"
                                     Padding="14,6"
-                                    Background="{StaticResource AccentSoftBrush}"
+                                    Background="White"
                                     Foreground="{StaticResource AccentBrush}"
                                     BorderThickness="0"
                                     Cursor="Hand"
@@ -140,19 +192,126 @@
                                     Click="CopyCodeButton_Click"
                                     Content="코드 복사" />
                         </Grid>
-                                   
-                        <CheckBox x:Name="ComboShakeCheckBox"
-                                  Margin="0,16,0,0"
-                                  Content="흔들림 효과 OFF"
-                                  Foreground="{StaticResource TextBrush}"
-                                  FontSize="13"
-                                  Click="ComboShakeCheckBox_Click" />
+
+                        <!-- 흔들림 효과 + 숨기기 -->
+                        <Grid Margin="0,14,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <CheckBox x:Name="ComboShakeCheckBox"
+                                      Content="흔들림 효과 OFF"
+                                      Foreground="{StaticResource TextBrush}"
+                                      FontSize="13"
+                                      VerticalAlignment="Center"
+                                      Click="ComboShakeCheckBox_Click" />
+                            <Button x:Name="HideOthersButton"
+                                    Grid.Column="2"
+                                    Padding="12,6"
+                                    Background="White"
+                                    Foreground="{StaticResource TextBrush}"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    FontSize="12"
+                                    Click="HideOthersButton_Click"
+                                    Content="다른 사람 숨기기" />
+                        </Grid>
                     </StackPanel>
                 </Border>
 
+                <!-- 캐릭터 선택 (인스턴스 섹션 바깥) -->
+                <StackPanel Grid.Row="3" Margin="0,18,0,0">
+                    <TextBlock FontSize="13"
+                               Foreground="{StaticResource MutedBrush}"
+                               Text="캐릭터 선택" />
+                    <Grid Margin="0,8,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="Skin1Button"
+                                Grid.Column="0"
+                                Height="44"
+                                Padding="0"
+                                Background="{StaticResource AccentBrush}"
+                                Foreground="White"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Click="Skin1Button_Click"
+                                Content="청춘이" />
+                        <Button x:Name="Skin2Button"
+                                Grid.Column="2"
+                                Height="44"
+                                Padding="0"
+                                Background="{StaticResource AccentSoftBrush}"
+                                Foreground="{StaticResource TextBrush}"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Click="Skin2Button_Click"
+                                Content="잉덕이" />
+                    </Grid>
+                </StackPanel>
+
+                <!-- 채팅 로그 -->
+                <Border Grid.Row="4"
+                        Margin="0,18,0,0"
+                        Padding="14"
+                        Background="{StaticResource AccentSoftBrush}"
+                        CornerRadius="16">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock FontSize="12"
+                                       Foreground="{StaticResource MutedBrush}"
+                                       VerticalAlignment="Center"
+                                       Text="채팅 로그" />
+                            <Button x:Name="ClearChatLogButton"
+                                    Grid.Column="1"
+                                    Padding="10,4"
+                                    Background="White"
+                                    Foreground="{StaticResource MutedBrush}"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    FontSize="11"
+                                    Click="ClearChatLogButton_Click"
+                                    Content="지우기" />
+                        </Grid>
+                        <Border Margin="0,8,0,0"
+                                Height="160"
+                                Background="White"
+                                CornerRadius="12">
+                            <ScrollViewer x:Name="ChatLogScrollViewer"
+                                          Padding="12"
+                                          VerticalScrollBarVisibility="Auto">
+                                <ItemsControl x:Name="ChatLogItemsControl">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}"
+                                                       FontSize="12"
+                                                       Foreground="{StaticResource TextBrush}"
+                                                       TextWrapping="Wrap"
+                                                       Margin="0,2" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </Border>
+                    </StackPanel>
+                </Border>
+
+                <!-- 상태 표시줄 -->
                 <TextBlock x:Name="StatusTextBlock"
-                           Grid.Row="4"
-                           Margin="0,18,0,0"
+                           Grid.Row="5"
+                           Margin="0,12,0,0"
                            FontSize="13"
                            Foreground="{StaticResource MutedBrush}"
                            TextWrapping="Wrap"

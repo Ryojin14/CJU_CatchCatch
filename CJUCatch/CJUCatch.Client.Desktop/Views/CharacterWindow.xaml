@@ -7,8 +7,8 @@
         Background="Transparent"
         Topmost="True"
         ShowInTaskbar="False"
-        Width="156"
-        Height="212">
+        Width="117"
+        Height="148">
     <Border Background="#00000000"
             MouseLeftButtonDown="OnMouseLeftButtonDown">
         <Border.ContextMenu>
@@ -22,29 +22,53 @@
 
         <Grid>
             <Border x:Name="SpeechBubbleBorder"
-                    Width="138"
-                    MinHeight="38"
-                    Margin="0,4,0,0"
+                    Width="104"
+                    MinHeight="28"
+                    Margin="0,3,0,0"
                     VerticalAlignment="Top"
                     Panel.ZIndex="8"
-                    Padding="12,8"
+                    Padding="8,5"
                     Background="#F7FFFDF8"
                     BorderBrush="#FFE3E8DE"
                     BorderThickness="1"
-                    CornerRadius="18"
+                    CornerRadius="14"
                     Visibility="Collapsed">
                 <TextBlock x:Name="SpeechBubbleTextBlock"
                            TextWrapping="Wrap"
                            TextAlignment="Center"
-                           FontSize="12"
+                           FontSize="10"
                            Foreground="#FF1E2A25"
                            Text="..." />
             </Border>
 
+            <!-- 새 채팅 알림 뱃지 -->
+            <Border x:Name="ChatNotificationBadge"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Margin="2,2,0,0"
+                    Padding="5,3"
+                    Background="#FF0033A0"
+                    CornerRadius="10"
+                    Panel.ZIndex="20"
+                    Visibility="Collapsed">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="💬"
+                               FontSize="10"
+                               VerticalAlignment="Center" />
+                    <TextBlock x:Name="ChatNotificationNameBlock"
+                               FontSize="9"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               Margin="3,0,0,0"
+                               VerticalAlignment="Center"
+                               Text="" />
+                </StackPanel>
+            </Border>
+
             <Image x:Name="CharacterImage"
-                   Width="130"
-                   Height="130"
-                   Margin="13,30,13,0"
+                   Width="97"
+                   Height="97"
+                   Margin="10,22,10,0"
                    VerticalAlignment="Top"
                    Panel.ZIndex="1"
                    RenderOptions.BitmapScalingMode="HighQuality">
@@ -57,19 +81,19 @@
                     Panel.ZIndex="5"
                     IsHitTestVisible="False" />
 
-            <Border Width="138"
-                    Height="36"
+            <Border Width="100"
+                    Height="20"
                     VerticalAlignment="Bottom"
                     Panel.ZIndex="6"
-                    CornerRadius="18"
-                    Background="#F2FFFCF5">
+                    CornerRadius="10"
+                    Background="#CC000000">
                 <TextBlock x:Name="NameTextBlock"
-                           Margin="12,0"
+                           Margin="8,0"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           FontSize="12"
+                           FontSize="10"
                            FontWeight="SemiBold"
-                           Foreground="#FF1E2A25"
+                           Foreground="#FFFFFFFF"
                            Text="게스트"
                            TextAlignment="Center"
                            TextTrimming="CharacterEllipsis" />
@@ -80,24 +104,24 @@
                     VerticalAlignment="Top"
                     Panel.ZIndex="7"
                     Margin="0,2,0,0"
-                    Padding="8,4"
+                    Padding="6,3"
                     Background="#FFF4E18A"
-                    CornerRadius="12"
+                    CornerRadius="9"
                     Visibility="Collapsed">
                 <TextBlock x:Name="ComboTextBlock"
-                           FontSize="12"
+                           FontSize="9"
                            FontWeight="Bold"
                            Foreground="#FF7A4D00"
                            Text="x1" />
             </Border>
 
             <Border x:Name="ChatInputContainer"
-                    Width="146"
-                    Height="40"
-                    Margin="0,0,0,-4"
+                    Width="112"
+                    Height="32"
+                    Margin="0,0,0,2"
                     VerticalAlignment="Bottom"
                     Panel.ZIndex="10"
-                    CornerRadius="20"
+                    CornerRadius="16"
                     Background="#FFFFFF"
                     BorderBrush="#FFE3E8DE"
                     BorderThickness="1"

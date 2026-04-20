@@ -44,11 +44,14 @@ public partial class CharacterWindow : Window
         _particleTimer.Start();
     }
 
-    private void LoadSprites()
+    private void LoadSprites(int skinId = 1)
     {
         var basePath = AppContext.BaseDirectory;
-        var idlePath = System.IO.Path.Combine(basePath, "Assets", "Characters", "sp1.png");
-        var activePath = System.IO.Path.Combine(basePath, "Assets", "Characters", "sp2.png");
+        // skinId 1 = sp1/sp2 (고양이), skinId 2 = sp3/sp4 (새 모델)
+        var idleFile = skinId == 2 ? "sp3.png" : "sp1.png";
+        var activeFile = skinId == 2 ? "sp4.png" : "sp2.png";
+        var idlePath = System.IO.Path.Combine(basePath, "Assets", "Characters", idleFile);
+        var activePath = System.IO.Path.Combine(basePath, "Assets", "Characters", activeFile);
 
         if (File.Exists(idlePath))
         {
@@ -58,6 +61,10 @@ public partial class CharacterWindow : Window
             _idleSprite.UriSource = new Uri(idlePath);
             _idleSprite.EndInit();
             _idleSprite.Freeze();
+        }
+        else
+        {
+            _idleSprite = null;
         }
 
         if (File.Exists(activePath))
@@ -69,8 +76,35 @@ public partial class CharacterWindow : Window
             _activeSprite.EndInit();
             _activeSprite.Freeze();
         }
+        else
+        {
+            _activeSprite = null;
+        }
 
         CharacterImage.Source = _idleSprite;
+    }
+
+    // 판널에서 비대칭 스킨 전환 시 호출
+    public void ChangeSkin(int skinId)
+    {
+        LoadSprites(skinId);
+    }
+
+    // 다른 사람이 채팅 시 왼쪽 위에 💬 뱃지 표시 (3초 후 자동 소멸)
+    private DispatcherTimer? _chatBadgeTimer;
+    public void ShowChatNotification(string senderName)
+    {
+        ChatNotificationNameBlock.Text = senderName;
+        ChatNotificationBadge.Visibility = Visibility.Visible;
+
+        _chatBadgeTimer?.Stop();
+        _chatBadgeTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(3) };
+        _chatBadgeTimer.Tick += (_, _) =>
+        {
+            _chatBadgeTimer.Stop();
+            ChatNotificationBadge.Visibility = Visibility.Collapsed;
+        };
+        _chatBadgeTimer.Start();
     }
 
     public void UpdateIdentity(string displayName)
@@ -205,14 +239,14 @@ public partial class CharacterWindow : Window
     {
         var count = Math.Min(3 + comboCount / 3, 10);
         var centerX = Width / 2;
-        var centerY = 130.0; // 하단(키보드) 영역으로 내림
+        var centerY = 97.0; // 하단(키보드) 영역으로 내림 (축소된 높이에 맞춰 97.0 적용)
 
         for (var i = 0; i < count; i++)
         {
-            var size = Random.Shared.NextDouble() * 8 + 10;
-            // 사용자의 왼쪽 방향으로 약간 더 늘림 (-60 ~ +40)
-            var startX = centerX + Random.Shared.NextDouble() * 100 - 60;
-            var startY = centerY + Random.Shared.NextDouble() * 16 - 8;
+            var size = Random.Shared.NextDouble() * 6 + 7.5;
+            // 사용자의 왼쪽 방향으로 약간 더 늘림
+            var startX = centerX + Random.Shared.NextDouble() * 75 - 45;
+            var startY = centerY + Random.Shared.NextDouble() * 12 - 6;
             var element = CreateParticleElement(size, comboCount);
 
             Canvas.SetLeft(element, startX);
@@ -223,8 +257,8 @@ public partial class CharacterWindow : Window
                 Element = element,
                 StartX = startX,
                 StartY = startY,
-                VelocityX = Random.Shared.NextDouble() * 60 - 30,
-                VelocityY = -(Random.Shared.NextDouble() * 180 + 100), // 위로 강하게 튀어오름
+                VelocityX = Random.Shared.NextDouble() * 45 - 22.5,
+                VelocityY = -(Random.Shared.NextDouble() * 135 + 75), // 위로 튀어오르는 힘 축소
                 CreatedAt = DateTime.Now,
             });
         }
@@ -242,7 +276,7 @@ public partial class CharacterWindow : Window
         {
             var particle = _particles[i];
             var age = (now - particle.CreatedAt).TotalSeconds;
-            if (age >= 1.0)
+            if (age >= 0.6)
             {
                 ParticleCanvas.Children.Remove(particle.Element);
                 _particles.RemoveAt(i);
@@ -255,7 +289,7 @@ public partial class CharacterWindow : Window
 
             Canvas.SetLeft(particle.Element, x);
             Canvas.SetTop(particle.Element, y);
-            particle.Element.Opacity = 1.0 - progress;
+            particle.Element.Opacity = 1.0 - (progress / 0.6);
         }
     }
 
